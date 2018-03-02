@@ -1,5 +1,5 @@
 # Traceless.Api
-一个WEBAPI+NETCORE2.0+CENTOS+MYSQL+SWAGGER+identityServer4的DEMO
+一个WEBAPI+NETCORE2.0+SWAGGER+identityServer4的测试运行在CENTOS 7上的DEMO
 
 ## Traceless.Api
 Net core 2.0 WebApi
