@@ -22,6 +22,7 @@ namespace Traceless.Auth
         {
             return new List<Client>
             {
+                
                 new Client
                 {
                     ClientId = "client",
@@ -37,6 +38,7 @@ namespace Traceless.Auth
                     // scopes that client has access to
                     AllowedScopes = { "TracelessApi" }
                 },
+                //implicit获取用户信息Client
                 new Client
                 {
                     ClientId = "mvc_implicit",
@@ -52,7 +54,10 @@ namespace Traceless.Auth
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         "TracelessApi"
-                    }
+                    },
+
+                    //允许返回Access Token
+                    AllowAccessTokensViaBrowser = true
                 }
             };
         }

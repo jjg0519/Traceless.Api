@@ -6,6 +6,15 @@
 
 <p>Use this area to provide additional information.</p>
 
+@using Microsoft.AspNetCore.Authentication
+<div>
+    <strong>id_token</strong>
+    <span>@await ViewContext.HttpContext.GetTokenAsync("id_token")</span>
+</div>
+<div>
+    <strong>access_token</strong>
+    <span>@await ViewContext.HttpContext.GetTokenAsync("access_token")</span>
+</div>
 <dl>
     @foreach (var claim in User.Claims)
     {

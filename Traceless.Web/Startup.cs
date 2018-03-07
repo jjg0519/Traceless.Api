@@ -46,6 +46,8 @@ namespace Traceless.Web
                     options.ClientId = "mvc_implicit";
                     //要把从Authorization Server的Reponse中返回的token们持久化在cookie中.
                     options.SaveTokens = true;
+                    //既做Authentication又做Authorization. 也就是说我们既要id_token还要token本身.
+                    options.ResponseType = "id_token token";
                 });
         }
 
