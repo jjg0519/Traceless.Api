@@ -1,5 +1,6 @@
 # Traceless.Api
 一个WEBAPI+NETCORE2.0+SWAGGER+identityServer4的测试运行在CENTOS 7上的DEMO
+仅供个人练手，并不是什么轮子，而是轮子的集合练手，代码注释尽量写得比较全，可以参考学习用。
 
 ## Traceless.Api(Api站点)
 Net core 2.0 WebApi
