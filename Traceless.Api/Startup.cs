@@ -51,7 +51,7 @@ namespace Traceless.Api
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = "http://localhost:50000";
+                    options.Authority = "http://traceless.site:50000";//这里是我自己的服务器，请自行修改
                     options.RequireHttpsMetadata = false;
 
                     options.ApiName = "Traceless Api";

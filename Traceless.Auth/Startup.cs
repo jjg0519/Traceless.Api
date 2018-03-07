@@ -24,6 +24,7 @@ namespace Traceless.Auth
             // configure identity server with in-memory stores, keys, clients and resources
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
                 .AddTestUsers(Config.Users().ToList());

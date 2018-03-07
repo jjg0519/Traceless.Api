@@ -1,6 +1,6 @@
 {
   "Traceless.Api": {
-    "commandName": "Project",
+    "commandName": "Traceless.Api",
     "launchBrowser": true,
     "launchUrl": "swagger/",
     "environmentVariables": {
