@@ -38,7 +38,7 @@ namespace Traceless.Auth
                     // scopes that client has access to
                     AllowedScopes = { "TracelessApi" }
                 },
-                //implicit获取用户信息Client
+                //implicit获取用户信息的Client
                 new Client
                 {
                     ClientId = "mvc_implicit",
