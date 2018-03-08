@@ -13,11 +13,16 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Traceless.Api.Controllers
 {
-    [Route("[controller]")]
-    [Authorize]
+    /// <summary>
+    /// 身份验证相关
+    /// </summary>
     public class IdentityController : ControllerBase
     {
-        [HttpGet]
+        /// <summary>
+        /// 获取信息
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/[controller]/GetUser"),HttpGet]
         public IActionResult Get()
         {
             var username = User.Claims.First(x => x.Type == "email").Value;
@@ -25,7 +30,12 @@ namespace Traceless.Api.Controllers
             //return new JsonResult(from c in User.Claims select new { c.Type, c.Value});
         }
 
+        /// <summary>
+        /// 验证
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
+        [Route("api/[controller]/GetIdentity"), HttpGet]
         public async Task<IActionResult> GetIdentity()
         {
             //正式环境中应该在401之后, 调用这个方法, 如果再失败, 再返回错误.
@@ -35,12 +45,16 @@ namespace Traceless.Api.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                var content = await client.GetStringAsync("http://traceless.site:50001/api/identity");
+                var content = await client.GetStringAsync("http://traceless.site:50001/api/identity/GetUser");
                 // var json = JArray.Parse(content).ToString();
                 return Ok(new { value = content });
             }
         }
 
+        /// <summary>
+        /// 刷新token
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public async Task RefreshTokensAsync()
         {
