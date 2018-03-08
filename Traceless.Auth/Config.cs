@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4;
 using IdentityServer4.Models;
@@ -14,7 +15,11 @@ namespace Traceless.Auth
         {
             return new List<ApiResource>
             {
+                //我们需要把email添加到access token的数据里面, 这就需要告诉Authorization Server的Api Resource里面要包括User的Scope, 因为这是Identity Scope, 我们想要把它添加到access token里
                 new ApiResource("TracelessApi", "Traceless API")
+                {
+                    UserClaims = new [] { "email" }
+                }
             };
         }
 
@@ -58,7 +63,33 @@ namespace Traceless.Auth
 
                     //允许返回Access Token
                     AllowAccessTokensViaBrowser = true
+                },
+                //Hybrid 访问API
+                new Client
+                {
+                    ClientId = "mvc_code",
+                    ClientName = "MVC Code Client",
+                    //Hybrid或者HybrdAndClientCredentials, 如果只使用Code Flow的话不行, 因为我们的网站使用Authorization Server来进行Authentication, 我们想获取Access token以便被授权来访问api. 所以这里用HybridFlow.
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    RedirectUris = { "http://traceless.site:50002/signin-oidc" },
+                    PostLogoutRedirectUris = { "http://traceless.site:50002/signout-callback-oidc" },
+                    //添加一个新的Email scope, 因为我想改变api来允许我基于email来创建用户的数据, 因为authorization server 和 web api是分开的, 所以用户的数据库也是分开的. Api使用用户名(email)来查询数据库中的数据.
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "TracelessApi"
+                    },
+                    //需要获取Refresh Token, 这就要求我们的网站必须可以"离线"工作, 这里离线是指用户和网站之间断开了, 并不是指网站离线了.
+                    AllowOfflineAccess = true,
+                    AllowAccessTokensViaBrowser = true
                 }
+
             };
         }
 
@@ -68,6 +99,7 @@ namespace Traceless.Auth
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email()
             };
         }
 
@@ -79,7 +111,8 @@ namespace Traceless.Auth
                 {
                     SubjectId = "1",
                     Username = "admin",
-                    Password = "admin"
+                    Password = "admin",
+                    Claims = new [] { new Claim("email", "mail@qq.com") }
                 }
             };
         }

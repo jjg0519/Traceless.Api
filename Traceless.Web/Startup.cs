@@ -42,12 +42,32 @@ namespace Traceless.Web
                     //信任的Identity Server ( Authorization Server).
                     options.Authority = "http://traceless.site:50000";
                     options.RequireHttpsMetadata = false;
+
+                    #region implicit授权
+                    ////Client的识别标志
+                    //options.ClientId = "mvc_implicit";
+                    ////要把从Authorization Server的Reponse中返回的token们持久化在cookie中.
+                    //options.SaveTokens = true;
+                    ////既做Authentication又做Authorization. 也就是说我们既要id_token还要token本身.
+                    //options.ResponseType = "id_token token";
+                    #endregion
+                    #region Hybrid 授权
+                    //和implicit差不多, 只不过重定向回来的时候, 获取了一个code, 使用这个code可以换取secret然后获取access token.
                     //Client的识别标志
-                    options.ClientId = "mvc_implicit";
+                    options.ClientId = "mvc_code";
+                    //需要在网站(MvcClient)上指定Client Secret. 这个不要泄露出去.
+                    options.ClientSecret = "secret";
                     //要把从Authorization Server的Reponse中返回的token们持久化在cookie中.
                     options.SaveTokens = true;
-                    //既做Authentication又做Authorization. 也就是说我们既要id_token还要token本身.
-                    options.ResponseType = "id_token token";
+                    //不需要再获取access token了, 而是code, 这意味着使用的是Authorization Code flow.
+                    options.ResponseType = "id_token code";
+                    //需要指定请求访问的scopes: 包括 TracelessApi和离线访问
+                    options.Scope.Add("TracelessApi");
+                    options.Scope.Add("offline_access");
+                    options.Scope.Add("email");
+                    //还可以告诉它从UserInfo节点获取用户的Claims.
+                    options.GetClaimsFromUserInfoEndpoint = true;
+                    #endregion
                 });
         }
 
