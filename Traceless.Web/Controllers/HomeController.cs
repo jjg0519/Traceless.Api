@@ -32,13 +32,6 @@ namespace Traceless.Web.Controllers
             return View();
         }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
@@ -56,7 +49,7 @@ namespace Traceless.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        public async Task<IActionResult> GetIdentity()
+        public async Task<IActionResult> ApiTest()
         {
             //首先通过HttpContext获得access token, 然后在请求的Authorization Header加上Bearer Token.
             var accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -64,7 +57,7 @@ namespace Traceless.Web.Controllers
             client.SetBearerToken(accessToken);
             var content = await client.GetStringAsync("http://traceless.site:50001/api/identity");
 
-            //ViewBag.Json = JArray.Parse(content).ToString();
+            ViewData["Message"] = content;
             return Ok(new { value = content });
         }
 
