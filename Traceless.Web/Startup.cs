@@ -57,16 +57,19 @@ namespace Traceless.Web
                     options.ClientId = "mvc_code";
                     //需要在网站(MvcClient)上指定Client Secret. 这个不要泄露出去.
                     options.ClientSecret = "secret";
+                    
+                    //不需要再获取access token了, 而是code, 这意味着使用的是Authorization Code flow.
+                    options.ResponseType = "code id_token";
+
                     //要把从Authorization Server的Reponse中返回的token们持久化在cookie中.
                     options.SaveTokens = true;
-                    //不需要再获取access token了, 而是code, 这意味着使用的是Authorization Code flow.
-                    options.ResponseType = "id_token code";
+                    //还可以告诉它从UserInfo节点获取用户的Claims.
+                    options.GetClaimsFromUserInfoEndpoint = true;
                     //需要指定请求访问的scopes: 包括 TracelessApi和离线访问
                     options.Scope.Add("TracelessApi");
                     options.Scope.Add("offline_access");
                     options.Scope.Add("email");
-                    //还可以告诉它从UserInfo节点获取用户的Claims.
-                    options.GetClaimsFromUserInfoEndpoint = true;
+                    
                     #endregion
                 });
         }

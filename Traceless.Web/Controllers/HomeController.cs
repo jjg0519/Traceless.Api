@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Traceless.Web.Models;
+using IdentityModel;
+using IdentityModel.Client;
+using Newtonsoft.Json.Linq;
 
 namespace Traceless.Web.Controllers
 {
@@ -43,5 +50,24 @@ namespace Traceless.Web.Controllers
             await HttpContext.SignOutAsync("Cookies");
             await HttpContext.SignOutAsync("oidc");
         }
+
+         /// <summary>
+        /// 验证
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public async Task<IActionResult> GetIdentity()
+        {
+            //首先通过HttpContext获得access token, 然后在请求的Authorization Header加上Bearer Token.
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var client = new HttpClient();
+            client.SetBearerToken(accessToken);
+            var content = await client.GetStringAsync("http://traceless.site:50001/api/identity");
+
+            //ViewBag.Json = JArray.Parse(content).ToString();
+            return Ok(new { value = content });
+        }
+
+        
     }
 }
