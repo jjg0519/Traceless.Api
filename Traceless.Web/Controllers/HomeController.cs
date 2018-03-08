@@ -58,7 +58,7 @@ namespace Traceless.Web.Controllers
             var content = await client.GetStringAsync("http://traceless.site:50001/api/identity");
 
             ViewData["Message"] = content;
-            return Ok(new { value = content });
+            return View();
         }
 
         
