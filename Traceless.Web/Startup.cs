@@ -40,7 +40,7 @@ namespace Traceless.Web
                 {
                     options.SignInScheme = "Cookies";
                     //信任的Identity Server ( Authorization Server).
-                    options.Authority = "http://traceless.site:50000";
+                    options.Authority = "http://localhost:50000";
                     options.RequireHttpsMetadata = false;
 
                     #region implicit授权
@@ -68,7 +68,6 @@ namespace Traceless.Web
                     //需要指定请求访问的scopes: 包括 TracelessApi和离线访问
                     options.Scope.Add("TracelessApi");
                     options.Scope.Add("offline_access");
-                    options.Scope.Add("email");
                     
                     #endregion
                 });

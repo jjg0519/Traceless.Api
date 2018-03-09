@@ -25,9 +25,9 @@ namespace Traceless.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var username = User.Claims.First(x => x.Type == "email").Value;
-            return Ok(username);
-            //return new JsonResult(from c in User.Claims select new { c.Type, c.Value});
+            //var username = User.Claims.First(x => x.Type == "email").Value;
+            //return Ok(username);
+            return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
     }
 }

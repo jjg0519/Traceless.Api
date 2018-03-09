@@ -1,0 +1,10 @@
+{
+
+  "Traceless.AuthWithASPIdentity": {
+    "commandName": "Traceless.AuthWithASPIdentity",
+    "launchBrowser": true,
+    "environmentVariables": {
+      "ASPNETCORE_ENVIRONMENT": "Development"
+    }
+  }
+}

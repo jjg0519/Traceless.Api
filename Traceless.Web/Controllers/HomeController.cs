@@ -24,10 +24,10 @@ namespace Traceless.Web.Controllers
             return View();
         }
 
-        [Authorize]//要求验证才能访问
-        public IActionResult About()
+        [Authorize]
+        public IActionResult Secure()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Secure page.";
 
             return View();
         }
@@ -44,23 +44,29 @@ namespace Traceless.Web.Controllers
             await HttpContext.SignOutAsync("oidc");
         }
 
-         /// <summary>
-        /// 验证
-        /// </summary>
-        /// <returns></returns>
-        [Authorize]
-        public async Task<IActionResult> ApiTest()
+        public async Task<IActionResult> CallApiUsingClientCredentials()
         {
-            //首先通过HttpContext获得access token, 然后在请求的Authorization Header加上Bearer Token.
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var client = new HttpClient();
-            client.SetBearerToken(accessToken);
-            var content = await client.GetStringAsync("http://traceless.site:50001/api/identity");
+            var tokenClient = new TokenClient("http://localhost:50000/connect/token", "mvc_code", "secret");
+            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("TracelessApi");
 
-            ViewData["Message"] = content;
-            return View();
+            var client = new HttpClient();
+            client.SetBearerToken(tokenResponse.AccessToken);
+            var content = await client.GetStringAsync("http://localhost:50001/api/identity");
+
+            ViewBag.Json = JArray.Parse(content).ToString();
+            return View("json");
         }
 
-        
+        public async Task<IActionResult> CallApiUsingUserAccessToken()
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            var client = new HttpClient();
+            client.SetBearerToken(accessToken);
+            var content = await client.GetStringAsync("http://localhost:50001/api/identity");
+
+            ViewBag.Json = JArray.Parse(content).ToString();
+            return View("json");
+        }
     }
 }
