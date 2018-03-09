@@ -10,7 +10,7 @@ Net core 2.0 WebApi
 identityServer4 Net Core版本，保护API，已经加入官方QucikStartUi
 
 ## Traceless.AuthWithASPIdentity(认证中心II-使用ASPIdentity，Traceless.Auth的升级版)
-identityServer4 Net Core版本，保护API，使用MySql数据库替代ASPIdentity原有模板中的SQLServer，不再使用TestUser，适合生产环境。
+identityServer4 Net Core版本，使用MySql数据库替代ASPIdentity原有模板中的SQLServer，不再使用TestUser，适合生产环境。
 
 ## Traceless.Web（Web客户端）
 
