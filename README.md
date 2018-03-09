@@ -14,7 +14,7 @@ identityServer4 Net Core版本，使用MySql数据库替代ASPIdentity原有模�
 
 ## Traceless.Web（Web客户端）
 
-~~2018年3月6日 在About页面使用implicit OpenId进行登陆并连接到认证中心，认证完成获取数据并显示在About页面··
+~~2018年3月6日 在About页面使用implicit OpenId进行登陆并连接到认证中心，认证完成获取数据并显示在About页面~~
 
 ~~2018年3月8日 完成Hybrid授权申请调用被IdentityServer保护的Api并返回结果到ApiTest页~~
 
